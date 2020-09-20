@@ -686,7 +686,7 @@ fs::path static StartupShortcutPath()
     std::string chain = ChainNameFromCommandLine();
     if (chain == CBaseChainParams::MAIN)
         return GetSpecialFolderPath(CSIDL_STARTUP) / "genix Core.lnk";
-    if (chain == CBaseChainParams::TESTNET) // Remove this special case when CBaseChainParams::TESTNET = "testnet4"
+    if (chain == CBaseChainParams::TESTNET) // Remove this special case when CBaseChainParams::TESTNET = "testnet8"
         return GetSpecialFolderPath(CSIDL_STARTUP) / "genix Core (testnet).lnk";
     return GetSpecialFolderPath(CSIDL_STARTUP) / strprintf("genix Core (%s).lnk", chain);
 }

@@ -394,17 +394,20 @@ public:
     CTestNetParams() {
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 210240;
-        consensus.nMasternodePaymentsStartBlock = 2100; // not true, but it's ok as long as it's less then nMasternodePaymentsIncreaseBlock
-        consensus.nMasternodePaymentsIncreaseBlock = 4030;
+        consensus.nMasternodePaymentsStartBlock = 401; // not true, but it's ok as long as it's less then nMasternodePaymentsIncreaseBlock
+        consensus.nMasternodePaymentsIncreaseBlock = 2030;
         consensus.nMasternodePaymentsIncreasePeriod = 10;
         consensus.nInstantSendConfirmationsRequired = 2;
+        consensus.nBudgetPaymentsStartBlock = 9999999999; // Disabled
+        consensus.nBudgetPaymentsCycleBlocks = 9999999999; // Disabled
+        consensus.nBudgetPaymentsWindowBlocks = 9999999999; // Disabled
+        // consensus.nBudgetProposalEstablishingTime = 60*20*9999999999; // Disabled
+        consensus.nSuperblockStartBlock = 99999999999; // Disabled
+        consensus.nSuperblockCycle = 9999999999; // Disabled
         consensus.nInstantSendKeepLock = 6;
-        consensus.nBudgetPaymentsStartBlock = 4100;
-        consensus.nBudgetPaymentsCycleBlocks = 50;
-        consensus.nBudgetPaymentsWindowBlocks = 10;
-        consensus.nSuperblockStartBlock = 4200; // NOTE: Should satisfy nSuperblockStartBlock > nBudgetPeymentsStartBlock
+        consensus.nSuperblockStartBlock = 9999999999; // NOTE: Should satisfy nSuperblockStartBlock > nBudgetPeymentsStartBlock
         consensus.nSuperblockStartHash = uint256(); // do not check this on testnet
-        consensus.nSuperblockCycle = 24; // Superblocks can be issued hourly on testnet
+        consensus.nSuperblockCycle = 9999999999; // Disabled for genix. Superblocks can be issued hourly on testnet 
         consensus.nGovernanceMinQuorum = 1;
         consensus.nGovernanceFilterElements = 500;
         consensus.nMasternodeMinimumConfirmations = 1;
@@ -412,17 +415,15 @@ public:
         consensus.BIP34Hash = uint256S("0x000006874678aa53f78b7676ced0f443cd22ae8917199b5ec14d0b7b7df7b93d");
         consensus.BIP65Height = 2431; // 0000039cf01242c7f921dcb4806a5994bc003b48c1973ae0c89b67809c2bb2ab
         consensus.BIP66Height = 2075; // 0000002acdd29a14583540cb72e1c5cc83783560e38fa7081495d474fe1671f7
-        consensus.DIP0001Height = 200;
-        consensus.DIP0003Height = 1200;
-        consensus.DIP0003EnforcementHeight = 1500;
-        consensus.DIP0003EnforcementHash = uint256S("00000055ebc0e974ba3a3fb785c5ad4365a39637d4df168169ee80d313612f8f");
+        consensus.DIP0001Height = 900;
+        consensus.DIP0003Height = 4500;
+        consensus.DIP0003EnforcementHeight = 4501;
+        consensus.DIP0003EnforcementHash = uint256S("0x00");
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
-        consensus.nPowTargetTimespan = 24 * 60 * 60; // Genix: 1 day
-        consensus.nPowTargetSpacing = 2.5 * 60; // Genix: 2.5 minutes
-        consensus.fPowAllowMinDifficultyBlocks = true;
+        consensus.nPowTargetTimespan = 1 * 60; // genix: 1 hour
+        consensus.nPowTargetSpacing = 2 * 60; // genix: 2 minutes
+        consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nPowKGWHeight = 4002; // nPowKGWHeight >= nPowDGWHeight means "no KGW"
-        consensus.nPowDGWHeight = 4002;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -468,14 +469,14 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00"); // 0
 
-        pchMessageStart[0] = 0xcf;
-        pchMessageStart[1] = 0x4e;
-        pchMessageStart[2] = 0x3b;
-        pchMessageStart[3] = 0x49;
-        nDefaultPort = 32538;
+        pchMessageStart[0] = 0x2b;
+        pchMessageStart[1] = 0x1c;
+        pchMessageStart[2] = 0x2a;
+        pchMessageStart[3] = 0x10;
+        nDefaultPort = 31345;
         nPruneAfterHeight = 1000;
 
-/*  
+/*
 	        // calculate Genesis Block
         hashGenesisBlock = genesis.GetHash();
         if(genesis.GetHash() != uint256("0x"))
@@ -513,7 +514,7 @@ public:
 
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-        vSeeds.emplace_back("45.76.113.77", true);
+        vSeeds.emplace_back("139.180.162.209", true);
 
         // Genix addresses start with 'g'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,98);
@@ -526,29 +527,27 @@ public:
         // Genix BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        // Testnet Genix BIP44 coin type is '1' (All coin's testnet default)
+        // Testnet genix BIP44 coin type is '1' (All coin's testnet default)
         nExtCoinType = 1;
 
         // long living quorum params
-        consensus.llmqs[Consensus::LLMQ_50_60] = llmq50_60;
-        consensus.llmqs[Consensus::LLMQ_400_60] = llmq400_60;
-        consensus.llmqs[Consensus::LLMQ_400_85] = llmq400_85;
-        consensus.llmqTypeChainLocks = Consensus::LLMQ_50_60;
-        consensus.llmqTypeInstantSend = Consensus::LLMQ_50_60;
+        consensus.llmqs[Consensus::LLMQ_5_60] = llmq5_60;
+        consensus.llmqTypeChainLocks = Consensus::LLMQ_5_60;
+        consensus.llmqTypeInstantSend = Consensus::LLMQ_5_60;
 
         fDefaultConsistencyChecks = false;
-        fRequireStandard = false;
+        fRequireStandard = true;
         fRequireRoutableExternalIP = true;
         fMineBlocksOnDemand = false;
         fAllowMultipleAddressesFromGroup = false;
-        fAllowMultiplePorts = true;
+        fAllowMultiplePorts = false;
 
         nPoolMinParticipants = 3;
         nPoolMaxParticipants = 5;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-        vSporkAddresses = {"gnmpGqoz14GEvKtDHbWShNxRCNeAy8oKVq"};
-        nMinSporkKeys = 1;
+        vSporkAddresses = {"gkb2GHuHrMTC4MLdhFRS2bUS9czWVZZUSJ", "gacdRi6FxkieDoF2XdiTciYSMtPQX1yKjL"};
+        nMinSporkKeys = 2;
         fBIP9CheckMasternodesUpgraded = true;
 
         checkpointData = (CCheckpointData) {
