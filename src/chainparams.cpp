@@ -552,7 +552,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             {
-//                {200000, uint256S("0x000000001015eb5ef86a8fe2b3074d947bc972c5befe32b28dd5ce915dc0d029")},
+                {0, uint256S("0x0000038977617c01646209e33e354174ef916df8284346b29aecfbc98fa43dd0")},
             }
         };
 
@@ -560,7 +560,7 @@ public:
             1551279600, // * UNIX timestamp of last known number of transactions (Block 213054)
             1,    // * total number of transactions between genesis and that timestamp
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            0.01        // * estimated number of transactions per second after that timestamp
+            299        // * estimated number of transactions per second after that timestamp
         };
 
     }
