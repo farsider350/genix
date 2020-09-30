@@ -416,8 +416,8 @@ public:
         consensus.BIP65Height = 51; // 0000039cf01242c7f921dcb4806a5994bc003b48c1973ae0c89b67809c2bb2ab
         consensus.BIP66Height = 51; // 0000002acdd29a14583540cb72e1c5cc83783560e38fa7081495d474fe1671f7
         consensus.DIP0001Height = 1500;
-        consensus.DIP0003Height = 7500;
-        consensus.DIP0003EnforcementHeight = 7501;
+        consensus.DIP0003Height = 9800;
+        consensus.DIP0003EnforcementHeight = 10000;
         consensus.DIP0003EnforcementHash = uint256S("0x00");
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 1 * 60; // genix: 1 hour
