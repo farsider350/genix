@@ -418,7 +418,7 @@ public:
         consensus.DIP0001Height = 1500;
         consensus.DIP0003Height = 9800;
         consensus.DIP0003EnforcementHeight = 10000;
-        consensus.DIP0003EnforcementHash = uint256S("0x00");
+        consensus.DIP0003EnforcementHash = uint256S("0000037012f13cb19aba23bbd09e555fd9642b7ec2de634feff5e44e4ba68843");
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 1 * 60; // genix: 1 hour
         consensus.nPowTargetSpacing = 2 * 60; // genix: 2 minutes
@@ -464,7 +464,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0008].nThreshold = 50; // 50% of 100
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00"); // 0
+        consensus.nMinimumChainWork = uint256S("0000000000000000000000000000000000000000000000000000000ce462a38c"); // 0
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00"); // 0
@@ -553,6 +553,7 @@ public:
         checkpointData = (CCheckpointData) {
             {
                 {0, uint256S("0x0000038977617c01646209e33e354174ef916df8284346b29aecfbc98fa43dd0")},
+                {10000, uint256S("0x0000037012f13cb19aba23bbd09e555fd9642b7ec2de634feff5e44e4ba68843")},
             }
         };
 
