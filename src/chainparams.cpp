@@ -541,7 +541,7 @@ public:
         fMineBlocksOnDemand = false;
         fAllowMultipleAddressesFromGroup = false;
         fAllowMultiplePorts = false;
-        fShouldMnsServePS = false;
+//         fShouldMnsServePS = false;
 
         nPoolMinParticipants = 3;
         nPoolMaxParticipants = 5;
