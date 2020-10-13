@@ -74,7 +74,11 @@ void CQuorumBlockProcessor::ProcessMessage(CNode* pfrom, const std::string& strC
                 // same, can't punish
                 return;
             }
-            int quorumHeight = pquorumIndex->nHeight - (pquorumIndex->nHeight % params.dkgInterval);
+            auto& c = Params().GetConsensus();
+            bool f = pquorumIndex->nHeight >= c.switchDKGinterval;
+            int interval = (f) ? params.dkgInterval+6 : params.dkgInterval;
+            int quorumHeight = pquorumIndex->nHeight - (pquorumIndex->nHeight % interval);
+
             if (quorumHeight != pquorumIndex->nHeight) {
                 LogPrintf("CQuorumBlockProcessor::%s -- block %s is not the first block in the DKG interval, peer=%d\n", __func__,
                           qc.quorumHash.ToString(), pfrom->GetId());
@@ -339,8 +343,12 @@ bool CQuorumBlockProcessor::GetCommitmentsFromBlock(const CBlock& block, const C
 bool CQuorumBlockProcessor::IsMiningPhase(Consensus::LLMQType llmqType, int nHeight)
 {
     const auto& params = Params().GetConsensus().llmqs.at(llmqType);
-    int phaseIndex = nHeight % params.dkgInterval;
-    if (phaseIndex >= params.dkgMiningWindowStart && phaseIndex <= params.dkgMiningWindowEnd) {
+    auto& c = Params().GetConsensus();
+    bool f = nHeight >= c.switchDKGinterval;
+    int interval = (f) ? params.dkgInterval+6 : params.dkgInterval;
+    int phaseIndex = nHeight % interval;
+    int dkgEnd = (f) ? params.dkgMiningWindowEnd+6 : params.dkgMiningWindowEnd;
+    if (phaseIndex >= params.dkgMiningWindowStart && phaseIndex <= dkgEnd) {
         return true;
     }
     return false;
@@ -366,8 +374,11 @@ uint256 CQuorumBlockProcessor::GetQuorumBlockHash(Consensus::LLMQType llmqType, 
     AssertLockHeld(cs_main);
 
     auto& params = Params().GetConsensus().llmqs.at(llmqType);
-
-    int quorumStartHeight = nHeight - (nHeight % params.dkgInterval);
+    auto& c = Params().GetConsensus();
+    bool f = nHeight >= c.switchDKGinterval;
+    int interval = (f) ? params.dkgInterval+6 : params.dkgInterval;
+    int quorumStartHeight = nHeight - (nHeight % interval);
+    LogPrintf("TwinkyDebug::%s quorumStartHeight, %s nHeight, %s Interval, %s dkgInterval, %s llmq dkginterval -- < values \n", quorumStartHeight, nHeight, interval, params.dkgInterval);
     uint256 quorumBlockHash;
     if (!GetBlockHash(quorumBlockHash, quorumStartHeight)) {
         return uint256();

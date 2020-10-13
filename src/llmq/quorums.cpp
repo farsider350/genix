@@ -183,7 +183,10 @@ void CQuorumManager::EnsureQuorumConnections(Consensus::LLMQType llmqType, const
     auto connmanQuorumsToDelete = g_connman->GetMasternodeQuorums(llmqType);
 
     // don't remove connections for the currently in-progress DKG round
-    int curDkgHeight = pindexNew->nHeight - (pindexNew->nHeight % params.dkgInterval);
+    auto& c = Params().GetConsensus();
+    bool f = pindexNew->nHeight >= c.switchDKGinterval;
+    int interval = (f) ? params.dkgInterval+6 : params.dkgInterval;
+    int curDkgHeight = pindexNew->nHeight - (pindexNew->nHeight % interval);
     auto curDkgBlock = pindexNew->GetAncestor(curDkgHeight)->GetBlockHash();
     connmanQuorumsToDelete.erase(curDkgBlock);
 

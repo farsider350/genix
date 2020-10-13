@@ -112,7 +112,10 @@ void CDKGSessionHandler::UpdatedBlockTip(const CBlockIndex* pindexNew)
 {
     LOCK(cs);
 
-    int quorumStageInt = pindexNew->nHeight % params.dkgInterval;
+    auto& c = Params().GetConsensus();
+    bool f = pindexNew->nHeight >= c.switchDKGinterval;
+    int interval = (f) ? params.dkgInterval+6 : params.dkgInterval;
+    int quorumStageInt = pindexNew->nHeight % interval;
     const CBlockIndex* pindexQuorum = pindexNew->GetAncestor(pindexNew->nHeight - quorumStageInt);
 
     currentHeight = pindexNew->nHeight;
