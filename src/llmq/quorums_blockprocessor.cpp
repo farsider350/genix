@@ -378,7 +378,7 @@ uint256 CQuorumBlockProcessor::GetQuorumBlockHash(Consensus::LLMQType llmqType, 
     bool f = nHeight >= c.switchDKGinterval;
     int interval = (f) ? params.dkgInterval+6 : params.dkgInterval;
     int quorumStartHeight = nHeight - (nHeight % interval);
-    LogPrintf("TwinkyDebug::%s quorumStartHeight, %s nHeight, %s Interval, %s dkgInterval, %s llmq dkginterval -- < values \n", quorumStartHeight, nHeight, interval, params.dkgInterval);
+    LogPrintf("TwinkyDebug::%s quorumStartHeight, %s nHeight, %s Interval, %s llmq dkginterval -- < values \n", quorumStartHeight, nHeight, interval, params.dkgInterval);
     uint256 quorumBlockHash;
     if (!GetBlockHash(quorumBlockHash, quorumStartHeight)) {
         return uint256();
