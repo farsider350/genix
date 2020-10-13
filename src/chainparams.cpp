@@ -149,10 +149,10 @@ static Consensus::LLMQParams llmq5_60 = {
         .minSize = 3,
         .threshold = 3,
 
-        .dkgInterval = 30, // one DKG per hour
+        .dkgInterval = 24, // one DKG per hour
         .dkgPhaseBlocks = 2,
         .dkgMiningWindowStart = 10, // dkgPhaseBlocks * 5 = after finalization
-        .dkgMiningWindowEnd = 24,
+        .dkgMiningWindowEnd = 18,
         .dkgBadVotesThreshold = 8,
 
         .signingActiveQuorumCount = 2, // just a few ones to allow easier testing
@@ -419,6 +419,7 @@ public:
         consensus.DIP0003Height = 9800;
         consensus.DIP0003EnforcementHeight = 10000;
         consensus.DIP0003EnforcementHash = uint256S("0000037012f13cb19aba23bbd09e555fd9642b7ec2de634feff5e44e4ba68843");
+        consensus.switchDKGinterval = 17250;
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 1 * 60; // genix: 1 hour
         consensus.nPowTargetSpacing = 2 * 60; // genix: 2 minutes
